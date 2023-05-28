@@ -10,4 +10,24 @@ describe("ValueObject Unit Tests", () => {
     stub = new StubValueObject({ prop: "value1" });
     expect(stub.value).toStrictEqual({ prop: "value1" });
   });
+
+  it("should convert to string", () => {
+    const date = new Date();
+    let arrange = [
+      { received: null, expected: "null" },
+      { received: undefined, expected: "undefined" },
+      { received: 1, expected: "1" },
+      { received: "string value", expected: "string value" },
+      {
+        received: { prop: "value1" },
+        expected: JSON.stringify({ prop: "value1" }),
+      },
+      { received: date, expected: date.toString() },
+    ];
+
+    arrange.forEach((value) => {
+      let stub = new StubValueObject(value.received);
+      expect(stub + "").toBe(value.expected);
+    });
+  });
 });
